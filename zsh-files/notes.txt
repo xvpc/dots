@@ -1,0 +1,14 @@
+zsh = ~/.zshrc
+p10k = ~/.p10k.zsh
+
+
+
+[links]
+https://github.com/ohmyzsh
+https://github.com/romkatv/powerlevel10k
+
+
+
+[commands]
+chsh -s /bin/zsh
+

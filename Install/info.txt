@@ -1,0 +1,287 @@
+**Add fonts**
+
+1. Move the fonts after downloading it from *google fonts* to this location
+`/home/vip/.local/share/fonts`
+
+2. Create a new file with `fonts.conf` name and add your preferred display fonts
+`sudo nvim /home/vip/.config/fontconfig/fonts.conf`
+> Ex: 
+```conf
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <!-- Fallback fonts preference order -->
+  <alias>
+    <family>sans-serif</family>
+    <prefer>
+      <family>Roboto</family>
+      <family>Noto Serif Japanese</family>
+      <family>Rubik</family>
+      <family>Cairo</family>
+    </prefer>
+  </alias>
+  <alias>
+    <family>serif</family>
+    <prefer>
+      <family>Roboto</family>
+      <family>Noto Serif Japanese</family>
+      <family>Rubik</family>
+      <family>Cairo</family>
+    </prefer>
+  </alias>
+  <alias>
+    <family>monospace</family>
+    <prefer>
+      <family>FantasqueSansM Nerd Font</family>
+      <family>Amiri Typewriter</family>
+    </prefer>
+  </alias>
+</fontconfig>
+```
+3. Move the same file to `etc`
+`sudo cp /home/vip/.config/fontconfig/fonts.conf /etc/fonts/local.conf `
+
+4. Remove fonts cache
+`fc-cache -fv`
+`sudo fc-cache -fv`
+
+
+---------------------------
+
+Check running tasks 
+`ps aux | grep virtualmachine`
+`sudo systemctl list-units --type service | grep virtualmachine`
+
+
+---------------------------
+
+**Firewall**
+`sudo pacman -S ufw`
+`sudo systemctl enable ufw`
+`sudo systemctl start ufw`
+`sudo systemctl status ufw`
+`sudo nfw list`
+Example for disabling a port
+`sudo nfw deny 22/tcp`
+
+
+---------------------------
+
+**Exporting env paths**
+`echo $PATH` Check avilabel paths
+`export PATH=$PATH:/home/vip/scripts` Export the folder that have all the scripts that you want to run
+
+
+----------------------------
+
+**Meta-data reader/overwriter**
+`sudo pacman -S perl-image-exiftool`
+`exiftool <image_name>`
+`exiftool -overwrite_original -All= <image_name>`
+
+
+-----------------------------
+
+**Set default browser**
+`xdg-settings get default-web-browser`
+`xdg-settings set default-web-browser firefox.desktop`
+
+
+------------------------------
+
+**Delete package cache**
+`sudo pacman -Scc --noconfirm && yay -Sc --noconfirm && paru -Scc --noconfirm`
+`df -h`
+
+
+------------------------------
+
+**Tor browser**
+`sudo pacman -S torbrowser-launcher`
+
+
+-----------------------------
+
+**Pipewire**
+`systemctl status --user pipewire`
+`sudo pacman -Rnsu --noconfirm pipewire pipewire-pulse wireplumber`
+`sudo pacman -S --noconfirm pipewire pipewire-pulse wireplumber`
+```
+systemctl enable --user pipewire
+systemctl enable --user wireplumber
+```
+```
+systemctl start --user pipewire
+systemctl start --user wireplumber
+```
+`pactl info | grep Server`
+
+
+-----------------------------
+
+File path
+`readlink -f <file_name>`
+
+Remove package completely
+`pacman -Rsnu <package_name>`
+
+File reader
+`sudo pacman -S bat`
+
+Check where a package is installed on the system
+`pacman -Ql "package_name"`
+`pacman -Qk "package_name"`
+
+Check if a package is installed
+`command -v pacman`
+
+OS info
+`cat /etc/os-release`
+
+Give apps permission to access file manger
+`sudo flatpak override com.example.MyApp --filesystem=host`
+
+
+
+------------------------------
+
+**Spotify**
+<https://github.com/abba23/spotify-adblock>
+```
+ git clone https://github.com/abba23/spotify-adblock.git
+ cd spotify-adblock
+ make
+```
+`$ sudo make install`
+```
+$ mkdir -p ~/.spotify-adblock && cp target/release/libspotifyadblock.so ~/.spotify-adblock/spotify-adblock.so
+$ mkdir -p ~/.config/spotify-adblock && cp config.toml ~/.config/spotify-adblock
+$ flatpak override --user --filesystem="~/.spotify-adblock/spotify-adblock.so" --filesystem="~/.config/spotify-adblock/config.toml" com.spotify.Client
+```
+
+
+----------------------------
+
+**Time zone**
+`timedatectl`
+`timedatectl list-timezones`
+`timedatectl set-timezone Asia/Riyadh`
+
+
+---------------------------
+
+**Japanese Input**
+<https://wiki.archlinux.org/title/Localization/Japanese>
+<https://wiki.archlinux.org/title/Fcitx5>
+<https://wiki.archlinux.org/title/Zsh>
+<https://archlinux.org/packages/?name=zsh-completions>
+
+**Install mozc**
+`sudo pacman -S fcitx5 fcitx5-im fcitx5-mozc fcitx-configtool`
+??
+`sudo pacman -S fcitx5-mozc-ut emacs-mozc ibus-mozc`
+
+**zsh**
+`echo $SHELL`
+`sudo pacman -S zsh-completions`
+
+**Set locale Inputs**
+`sudo nano /etc/locale.gen`
+`sudo locale-gen`
+```
+...
+ja_JP.UTF-8.
+...
+```
+
+**configuration GUI**
+`fcitx5-configtool`
+
+**Add to start ups**
+`sudo nano ~/.config/hypr/hyprland.conf`
+```conf
+...
+$fcitx5 = fcitx5 -d &
+...
+exec-once = $fcitx5
+...
+```
+
+
+----------------------
+
+**Unzip**
+`sudo pacman -S unzip`
+`unzip "folder_name"`
+
+
+---------------------
+
+**Fonts**
+`sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji `
+`fc-cache -fv`
+
+
+---------------------
+
+**Monitors configurations**
+`sudo nano ~/.config/hypr/hyprland.conf`
+```conf
+################
+### MONITORS ###
+################
+
+# See https://wiki.hyprland.org/Configuring/Monitors/
+monitor=HDMI-A-1,preferred,auto,auto
+monitor=DP-3,1600x900@59,1920x0,auto
+```
+
+
+--------------------
+
+**Paru**
+`sudo rm -r paru`
+`pacman -Syu`
+`sudo pacman -S --needed base-devel`
+`git clone https://aur.archlinux.org/paru.git`
+`cd paru`
+`makepkg -si`
+
+
+--------------------
+
+**NVIDIA configurations**
+`sudo pacman -S linux-headers`
+`nano /etc/mkinitcpio.conf`
+```conf
+MODULES=(btrfs nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+```
+`nano /etc/modprobe.d/nvidia.conf`
+```conf
+options nvidia_drm modeset=1 fbdev=1
+```
+`sudo mkinitcpio -p`
+`sudo reboot now`
+
+<https://wiki.hyprland.org/Nvidia/>
+
+
+--------------------
+
+**Installtion**
+
+Desk formatting
+sda
+Show all desk drivers `lsblk`
+Clear the drive `gdisk /dev/sda` 
+- x
+- z
+
+Arch security for packages `pacman -Sy archlinux-keyring`
+Installation `pacman -Sy archinstall` `archinstall`
+Important packages `pacman -Sy firefox power-profiles-daeemon elisa vlc bpytop`
+
+
+------------------------
+
+
