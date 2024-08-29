@@ -1,0 +1,17 @@
+Neovim + NvChad
+https://nvchad.com/docs/quickstart/install
+https://github.com/mrcjkb/rustaceanvim
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+:MasonInstallAll
+
+
+
+[commands]
+Space + t + h Theme selector
+Ctrl + n File tree
+Space + ff Search file
+Space + h Open terminal
+Space + dt Debugging
+
+
+
